@@ -52,7 +52,7 @@ Dr. Garretts lab has a very stimulating work environment. They examine plant epi
 
 You can write me at on gmail \@ *cbuddenhagen*. Or contact me via the social media links provided above.
 
-To find my office at the Plant Protection building in Hamilton, New Zealand, check the map [here](https://www.google.co.nz/maps/place/Plant+Protection+Building+AgResearch+Ltd/@-37.7758206,175.3073352 "google link to work location"). To find my office at the Plant Protection building in Hamilton, New Zealand, check the google map [here](https://goo.gl/maps/npMKG1TDxGM7yAk6A "google link to work location").
+To find my office at the Plant Protection building in Hamilton, New Zealand, check the map here, or this Google [link](https://goo.gl/maps/5vYNM8TQ4mtFLkZ18 "get me to google maps I want to navigate!").
 
 ```{r plant protection map, echo=FALSE}
 library(leaflet)
@@ -61,7 +61,7 @@ leaflet() %>%
   addMarkers(
     lng=175.30959,
     lat=-37.77585,
-    label="Plant Protection"
+    label="Plant Protection Building"
   ) %>% 
   addProviderTiles(providers$CartoDB.Positron)
 ```
