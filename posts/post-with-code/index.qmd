@@ -3,6 +3,7 @@ title: "A co-occurrence network"
 author: "Christopher Buddenhagen"
 date: "2022-08-24"
 categories: [news, code, analysis]
+categories: [news, code, analysis, weeds, network]
 image: "country network.png"
 bibliography: references2.bib
 csl: journal-of-new-zealand-grasslands.csl

@@ -25,35 +25,34 @@ about:
     - icon: researchgate
       text: Researchgate
       href: https://www.researchgate.net/profile/Chris-Buddenhagen
-
 ---
 
 # Interests
 
-* Biosecurity
-* Food security
-* Invasive species (weeds, pests and diseases)
-* Global change
-* Plant epidemiology
-* Network models
+-   Biosecurity
+-   Food security
+-   Invasive species (weeds, pests and diseases)
+-   Global change
+-   Plant epidemiology
+-   Network models
 
 # Education
 
-* MSc University of Auckland 1995 ![UoA](UoA.jpeg){width=10%}
-* PhD Florida State University 2016 ![FSU](FSU.jpeg){width=20%}
-* Post-doc University of Florida 2018  ![UF](UF.jpeg){width=20%}
+-   MSc University of Auckland 1995 ![UoA](UoA.jpeg){width="10%"}
+-   PhD Florida State University 2016 ![FSU](FSU.jpeg){width="20%"}
+-   Post-doc University of Florida 2018 ![UF](UF.jpeg){width="20%"}
 
 # Biography
 
-I am a Senior Scientist at AgResearch in Hamilton, New Zealand in the Agroecology team. A major goal of my work has been to inform and influence management and policy with respect to biosecurity, biodiversity (including systematics and evolution), and natural resources. Apart from recent work on herbicide resistance and seed biosecurity my research has focused on invasive plants, animal impacts, plant epidemiology, plant phylogenomics and systematics.  Prior to completing my doctorate, I worked in non-academic roles that focused on biosecurity issues related to invasive plant and animal policy and management in New Zealand, Galapagos and Hawaii. 
+I am a Senior Scientist at AgResearch in Hamilton, New Zealand in the Agroecology team. A major goal of my work has been to inform and influence management and policy with respect to biosecurity, biodiversity (including systematics and evolution), and natural resources. Apart from recent work on herbicide resistance and seed biosecurity my research has focused on invasive plants, animal impacts, plant epidemiology, plant phylogenomics and systematics. Prior to completing my doctorate, I worked in non-academic roles that focused on biosecurity issues related to invasive plant and animal policy and management in New Zealand, Galapagos and Hawaii.
 
-Dr. Garretts lab has a very stimulating work environment. They examine plant epidemiology, disease incidence, and food security within a project about [roots, tubers and bananas](http://www.rtb.cgiar.org/). Collaborators work in Asia, Africa and South America in the [CGIAR](http://www.cgiar.org/) research consortium. These crops are all subject to “seed degeneration” whereby yields are reduced by the accumulation of pathogens (often these are viruses) over successive plantings of vegetative planting material (and farmer to farmer spread through “seed systems”). I completed my PhD with [Austin Mast](http://mastlab.org) at Florida State University in 2016. I also spent a few years working as a curator in the [herbarium](http://herbarium.bio.fsu.edu/) at FSU. My post-doc was in Professor Karen Garrett's [lab](http://www.garrettlab.com/). 
+Dr. Garretts lab has a very stimulating work environment. They examine plant epidemiology, disease incidence, and food security within a project about [roots, tubers and bananas](http://www.rtb.cgiar.org/). Collaborators work in Asia, Africa and South America in the [CGIAR](http://www.cgiar.org/) research consortium. These crops are all subject to "seed degeneration" whereby yields are reduced by the accumulation of pathogens (often these are viruses) over successive plantings of vegetative planting material (and farmer to farmer spread through "seed systems"). I completed my PhD with [Austin Mast](http://mastlab.org) at Florida State University in 2016. I also spent a few years working as a curator in the [herbarium](http://herbarium.bio.fsu.edu/) at FSU. My post-doc was in Professor Karen Garrett's [lab](http://www.garrettlab.com/).
 
 # Contact
 
-You can write me at on gmail @ *cbuddenhagen*. Or contact me via the social media links provided above.
+You can write me at on gmail \@ *cbuddenhagen*. Or contact me via the social media links provided above.
 
-To find my office at the Plant Protection building in Hamilton, New Zealand, check the map here.
+To find my office at the Plant Protection building in Hamilton, New Zealand, check the map [here](https://www.google.co.nz/maps/place/Plant+Protection+Building+AgResearch+Ltd/@-37.7758206,175.3073352 "google link to work location").
 
 ```{r plant protection map, echo=FALSE}
 library(leaflet)
@@ -66,4 +65,3 @@ leaflet() %>%
   ) %>% 
   addProviderTiles(providers$CartoDB.Positron)
 ```
-
