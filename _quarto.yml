@@ -3,6 +3,10 @@ project:
 
 website:
   title: "CE Buddenhagen"
+  site-url: https://cbuddenhagen.netlify.app/
+  open-graph: true
+twitter-card: 
+  creator: "@cebuddenhagen"
   navbar:
     right:
       - about.qmd
