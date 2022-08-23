@@ -2,10 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://cbuddenhagen.netlify.app/posts/post-with-code/index.html</loc>
-    <lastmod>2022-08-23T05:26:17.288Z</lastmod>
+    <lastmod>2022-08-23T08:54:28.917Z</lastmod>
   </url>
   <url>
     <loc>https://cbuddenhagen.netlify.app/index.html</loc>
-    <lastmod>2022-08-23T05:26:17.731Z</lastmod>
+    <lastmod>2022-08-23T08:54:27.630Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbuddenhagen.netlify.app/posts/welcome/index.html</loc>
+    <lastmod>2022-08-23T08:54:27.187Z</lastmod>
   </url>
 </urlset>
