@@ -2,7 +2,7 @@
 title: "Welcome To My Blog - and a pastoral weed horizon scan"
 author: "Christopher Buddenhagen"
 date: "2022-08-23"
-categories: [news]
+categories: [news, research]
 bibliography: references.bib
 ---
 

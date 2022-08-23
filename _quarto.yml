@@ -5,20 +5,22 @@ website:
   title: "CE Buddenhagen"
   site-url: https://cbuddenhagen.netlify.app/
   open-graph: true
-twitter-card: 
-  creator: "@cebuddenhagen"
-  navbar:
+  twitter-card:
+    creator: "@CEBuddenhagen"
+    card-style: summary_large_image
+navbar:
     right:
       - about.qmd
       - publications.qmd
-      
       - icon: github
+      - aria-label: github
         href: https://github.com/cbud
       - icon: twitter
-        href: https://twitter.com/cebuddenhagen
+      - aria-label: twitter
+      - href: https://twitter.com/cebuddenhagen
 format:
   html:
-    theme: cosmo
+    theme: cosmo.scss
     css: styles.css
 
 
