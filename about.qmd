@@ -1,5 +1,5 @@
 ---
-title: "Christopher Buddenhagen"
+title: "About"
 subtitle: Christopher E. Buddenhagen PhD
 image: profile.jpeg
 about:
