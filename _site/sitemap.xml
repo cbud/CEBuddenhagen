@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/post-with-code/index.html</loc>
-    <lastmod>2022-08-23T11:23:17.648Z</lastmod>
-  </url>
-  <url>
-    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/welcome/index.html</loc>
-    <lastmod>2022-08-23T11:23:18.176Z</lastmod>
-  </url>
-  <url>
-    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/index.html</loc>
-    <lastmod>2022-08-23T11:23:18.842Z</lastmod>
-  </url>
-  <url>
-    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/publications.html</loc>
-    <lastmod>2022-08-23T11:23:19.509Z</lastmod>
-  </url>
-  <url>
-    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/about.html</loc>
-    <lastmod>2022-08-23T11:23:21.369Z</lastmod>
+    <loc>https://cbuddenhagen.netlify.app/posts/post-with-code/index.html</loc>
+    <lastmod>2022-08-23T09:12:21.837Z</lastmod>
   </url>
   <url>
     <loc>https://cbuddenhagen.netlify.app/index.html</loc>
-    <lastmod>2022-08-23T11:24:48.825Z</lastmod>
+    <lastmod>2022-08-23T08:54:27.630Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbuddenhagen.netlify.app/posts/welcome/index.html</loc>
+    <lastmod>2022-08-23T08:54:27.187Z</lastmod>
+  </url>
+  <url>
+    <loc>https://cbuddenhagen.netlify.app/about.html</loc>
+    <lastmod>2022-08-23T09:27:11.713Z</lastmod>
   </url>
 </urlset>
