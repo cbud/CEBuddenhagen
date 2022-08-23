@@ -1,14 +1,14 @@
 project:
   type: website
-
+  
 website:
-  title: "CE Buddenhagen"
+  title: "Notes from a from a plant biologist"
   site-url: https://cbuddenhagen.netlify.app/
   open-graph: true
   twitter-card:
     creator: "@CEBuddenhagen"
-    card-style: summary_large_image
-navbar:
+    card-style: summary
+  navbar:
     right:
       - about.qmd
       - publications.qmd
@@ -18,9 +18,10 @@ navbar:
       - icon: twitter
       - aria-label: twitter
       - href: https://twitter.com/cebuddenhagen
+      
 format:
   html:
-    theme: cosmo.scss
+    theme: ember.scss
     css: styles.css
 
 
