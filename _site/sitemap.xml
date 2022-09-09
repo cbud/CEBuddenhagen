@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://cbuddenhagen.netlify.app/posts/post-with-code/index.html</loc>
-    <lastmod>2022-08-23T09:12:21.837Z</lastmod>
+    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/weed-horizon-scan/index.html</loc>
+    <lastmod>2022-09-09T04:46:20.573Z</lastmod>
   </url>
   <url>
-    <loc>https://cbuddenhagen.netlify.app/index.html</loc>
-    <lastmod>2022-08-23T08:54:27.630Z</lastmod>
+    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/sankey-example/index.html</loc>
+    <lastmod>2022-09-09T04:46:21.681Z</lastmod>
   </url>
   <url>
-    <loc>https://cbuddenhagen.netlify.app/posts/welcome/index.html</loc>
-    <lastmod>2022-08-23T08:54:27.187Z</lastmod>
+    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/co-occurrence-network/index.html</loc>
+    <lastmod>2022-09-09T04:46:22.410Z</lastmod>
   </url>
   <url>
-    <loc>https://cbuddenhagen.netlify.app/about.html</loc>
-    <lastmod>2022-08-23T10:36:41.508Z</lastmod>
+    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/index.html</loc>
+    <lastmod>2022-09-09T04:46:22.991Z</lastmod>
+  </url>
+  <url>
+    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/publications.html</loc>
+    <lastmod>2022-09-09T04:46:23.644Z</lastmod>
+  </url>
+  <url>
+    <loc>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/about.html</loc>
+    <lastmod>2022-09-09T04:46:25.263Z</lastmod>
   </url>
 </urlset>

@@ -3,11 +3,13 @@ project:
   
 website:
   title: "Notes from a from a plant biologist"
-  site-url: https://cbuddenhagen.netlify.app/
+  site-url: https://cbuddenhagen.quarto.pub/notes-from-a-from-a-plant-biologist/
+  google-analytics: "UA-103569119-1"
+  tracking-id: "GTM-WR68PP3"
   open-graph: true
   twitter-card:
     creator: "@CEBuddenhagen"
-    card-style: summary
+    card-style: summary_large_image
   navbar:
     right:
       - about.qmd

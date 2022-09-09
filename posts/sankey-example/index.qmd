@@ -1,0 +1,152 @@
+---
+title: "Sankey diagram example data and code"
+author: "Christopher Buddenhagen"
+date: "2022-09-9"
+categories: [news, code, analysis,network]
+image: "sankey.png"
+bibliography: references.bib
+csl: new-zealand-plant-protection (CEB).csl
+exexute:
+  freeze: auto
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+I first learned about a Sankey graph from Tufte's data visualization
+book [@tufte1983visual]. It is a heartbreaking image of Napoleon's army's
+attempt to invade Moscow, but instead of victory, thousands died through
+a mix of war and unhygienic and freezing weather as the marched to
+Moscow and back to France. My purposes for this post are much more
+mundane, quite unimportant relatively - to look at weightings of a
+project with criteria.
+
+How can data be used to generate a Sankey graph? You need project and
+criteria node names arranged in terms of weights and the target and
+sources for links @tbl-data. This way nodes and links are sized
+according the assigned weights @fig-sankey - an example of its
+application is in my other post for our [weed horizon
+scan](https://cbuddenhagen.quarto.pub/notes-from-a-from-a-plant-biologist/posts/weed-horizon-scan/).
+
+![Charles Joseph Minard's visualization of Napoleon's Russian campaign
+of
+1812](Charles-Joseph-Minards-visualization-of-Napoleons-Russian-campaign-of-1812-Friendly_W640.jpeg)
+
+The package is a network package
+`networkD3`@allaireNetworkD3D3JavaScript2017.
+
+```{r}
+#| warning: false
+
+#Load packages
+library(tidyverse)
+library(networkD3)
+library(kableExtra)
+```
+
+The data can be read in from an external file, you need the nodes to be
+listed and numbered from 0 and on up to the number of nodes in one file,
+the names should match the criteria and project titles @tbl-nodes.
+
+```{r}
+#| warning: false
+#| label: tbl-nodes
+#| tbl-cap: The nodes need to be numbered from zero up.
+#| tbl-colwidths: [50,50]
+
+nodes<-
+  structure(
+  list(
+    source = 0:7, #node numbering starts at zero
+    target_name = c(
+      "1 project",
+      "2 project",
+      "3 project",
+      "4 project",
+      "5 project",
+      "Proportion of work that is plant science",
+      "Stakeholders will benefit",
+      "Is not well addressed by others"
+    )
+  ),
+  row.names = c(NA,-8L),
+  class = "data.frame"
+)
+
+kable(nodes %>% arrange(source), align="l", format = "pipe", padding = 2)
+```
+
+Generate some random weights for this exercise, I am using 3 criteria,
+for the 5 projects so I need 15 weights.
+
+```{r}
+weights<-sample(1:10, 15, replace=T)
+```
+
+Then generate the table with project names and weights. The link colors
+are determined by the names on the nodes and it can have problems
+recognizing names as unique if the first word is the same and there are
+spaces. I used Project 1, Project 2, etc and it didn't recognize the
+nodes as distinct until I named them 1 Project, 2 Project, etc.
+
+```{r}
+#| warning: false
+#| label: tbl-data
+#| tbl-cap: Data arrangement includes projects, criteria and weights.
+
+
+target_source <-
+  tibble(
+    source_name = c(rep(
+      c(
+        "Proportion of work that is plant science",
+        "Stakeholders will benefit",
+        "Is not well addressed by others"
+      ),
+      5
+    )),
+    target_name = c(rep(
+      c("1 project",
+        "2 project",
+        "3 project",
+        "4 project",
+        "5 project"),
+      3
+    )),
+    weight=as.numeric(c(weights)),
+    target = c(rep(c(0, 1, 2, 3, 4), 3)),
+    source = c(rep(c(5, 6, 7), 5))
+    
+    ) 
+
+kable(target_source %>% arrange(target_name), align="c", format = "pipe", padding = 2)
+```
+
+Then generate the @fig-sankey. Just note it is outputting and html
+widget, looks a lot better on a desktop screen.
+
+------------------------------------------------------------------------
+
+```{r}
+#| label: fig-sankey
+#| fig-cap: Project weights under three criteria using a Sankey diagram, from R code.
+#| warning: false
+
+sankey3<-networkD3::sankeyNetwork(Links = target_source, 
+                                  Nodes = nodes, 
+                                  Source = 'target', 
+                                  Target = 'source', 
+                                  Value = 'weight', 
+                                  NodeID = 'target_name',
+                                  units = 'weight',
+                                  width = 600,
+                                  height = 800,
+                                  fontSize = 18,
+                                  LinkGroup="target_name", 
+                                  fontFamily = "Georgia")
+
+sankey3
+
+```
+
+## References
