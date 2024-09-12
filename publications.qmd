@@ -1,0 +1,28 @@
+---
+title: "My publications"
+bibliography: BuddenhagenCE.bib
+csl: new-zealand-plant-protection (CEB).csl
+link-citations: true
+
+# https://gsverhoeven.github.io/post/zotero-rmarkdown-csl/
+#bibliography: references.bib
+---
+
+# Publication topics
+
+-Weed focused papers in New Zealand 
+[@bourdotPastoralSectorWeeds2018; @doi:10.1080/00288233.2022.2107026; @buddenhagen_etal98; @buddenhagenCostsRisksAssociated2019; @buddenhagen_etal22a; @buddenhagen_etal22; @buddenhagenResistancePostemergentHerbicides2021; @buddenhagenPhytosanitaryRisksPosed2021; @buddenhagenWarWeeds2000; @dowsettPredictingMassEmergence2018; @dowsettPredictingMassEmergence2018; @dowsettYellowBristleGrass2018; @flynnWaitakereCityWeed2000; @ghanizadeh_etal22; @ghanizadeh_etal22a; @ngowHerbicideResistanceRisk2020; @ngowHerbicideResistanceRisk2021; @10.1371/journal.pone.0256623; @timmins_etal00; @buddenhagen_etal22; @bourdot_buddenhagen23]
+
+-Weeds generally 
+[@bourdotPastoralSectorWeeds2018; @buddenhagenBroomControlMonitoring2000; @buddenhagenCarexKobomugiAsiatic2015; @buddenhagen16; @buddenhagenCyclosorusParasiticusParasitic2013; @buddenhagenSetpar13; @buddenhagenChristellaDentataSoft2014; @buddenhagenPassifloraEdulisPassionfruit2014; @buddenhagenSolanumCapsicoidesCockroach2014; @buddenhagen15a; @buddenhagen_etal98; @buddenhagen_etal09; @buddenhagenWarWeeds2000; @buddenhagenLessonsSuccessfulPlant2015; @chimeraBiofuelsRisksDangers2010; @dowsettPredictingMassEmergence2018; @dowsettYellowBristleGrass2018; @flynnWaitakereCityWeed2000; @gardenerPragmaticApproachManagement2013; @ghanizadehGeneticInheritanceHerbicide2019; @gordon_etal10; @gordonWeedRiskAssessments2016; @hawaiidepartmentoftransportation20122022StatewideNoxious2012; @roggExperiencesLimitationsPest2003; @timmins_etal00]
+
+-Plant epidemiology 
+[@andersenModelingEpidemicsSeed2019; @buddenhagen_etal22b; @buddenhagenEpidemicNetworkAnalysis2017; @buddenhagenPhytosanitaryRisksPosed2021; @garrettNetworkAnalysisSystems2018]
+
+-Evolutionary plant biology 
+[@buddenhagenViewRhynchosporeaeCyperaceae2016; @buddenhagen_etal17; @burchardt_etal20; @caiPerfectStormGene2021; @10.1093/aob/mcab063; @ghanizadehGeneticInheritanceHerbicide2019; @ribeiroAreHolocentricsDoomed2018]
+
+-Galapagos themed 
+[@buddenhagen_jewell06; @buddenhagen_yanez05; @buddenhagen06; @buddenhagenControlHighlyInvasive2004; @buddenhagenLessonsSuccessfulPlant2015; @gardenerPragmaticApproachManagement2013; @guerrero_etal08; @guezou_etal07; @guezou_etal10; @renteria_buddenhagen06; @roggExperiencesLimitationsPest2003]
+
+# References

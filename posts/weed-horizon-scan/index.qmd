@@ -1,0 +1,21 @@
+---
+title: "A pastoral weed horizon scan"
+author: "Christopher Buddenhagen"
+date: "2022-08-23"
+categories: [news, research, weeds, horizon scan]
+bibliography: references.bib
+---
+
+# A horizon scan for pastoral weed research
+
+This is my first post in a Quarto blog. Welcome! Here I share recent effort we made at AgResearch Ltd. via an interdisciplinary expert elicitation workshop to identify drivers of innovative weed research for the pastoral sector @doi:10.1080/00288233.2022.2107026. This builds on an earlier strategic more applied research document @bourdotPastoralSectorWeeds2018.
+
+The main drivers we identified were ranked by participants using the criteria (1) is this a horizon (is the driver likely to become important in 10--20 years?); (2) will the research require stretchy science (is it currently not well addressed by the science community?); (3) is the research transformative (will successful scientific research in this area lead to significant changes to weed management in pastures?). We depicted the relative ranks using a nifty Sankey diagram @allaireNetworkD3D3JavaScript2017 from the `networkD3` package in `R`.
+
+![Major drivers of research innovation for being a emerging issue on horizon, with potential to transform management, and potentially needing stretchy science. Width of the links is based on the expert elicitation of weighted scores derived from rankings of participants.](sankey.jpeg){fig-alt="A sankey diagram showing the major drivers of innovation with rank scores for it being a emerging issue on horizon, potential to transform management, and on the stretchiness of the science."}
+
+### Post script
+
+To set this blog up I followed the guidelines at [quarto.org](https://quarto.org/docs/websites/website-blog.html), with some nice pointers from a data witch @navarro2022.
+
+## References

@@ -1,0 +1,29 @@
+project:
+  type: website
+  
+website:
+  title: "Notes from a from a plant biologist"
+  site-url: https://cbuddenhagen.quarto.pub/notes-from-a-from-a-plant-biologist/
+  google-analytics: "UA-103569119-1"
+  open-graph: true
+  twitter-card:
+    creator: "@CEBuddenhagen"
+    card-style: summary_large_image
+  navbar:
+    right:
+      - about.qmd
+      - publications.qmd
+      - icon: github
+      - aria-label: github
+        href: https://github.com/cbud
+      - icon: twitter
+      - aria-label: twitter
+      - href: https://twitter.com/cebuddenhagen
+      
+format:
+  html:
+    theme: ember.scss
+    css: styles.css
+
+
+

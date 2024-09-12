@@ -1,0 +1,68 @@
+---
+title: "Chris Buddenhagen"
+subtitle: Christopher E. Buddenhagen PhD
+image: profile.jpeg
+about:
+  template: trestles
+  image-width: 12em
+  image-shape: round
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/christopher-buddenhagen-0a2b144
+    - icon: github
+      text: Github
+      href: https://github.com/cbud
+    - icon: google-scholar
+      text: scholar
+      href: https://scholar.google.com/citations?user=2K3JyE4AAAAJ 
+    - icon: orcid
+      text: Orcid
+      href: https://orcid.org/0000-0002-3016-1054
+    - icon: researchgate
+      text: Researchgate
+      href: https://www.researchgate.net/profile/Chris-Buddenhagen
+---
+
+# Visual CV
+
+![A visual depiction of my publication record, collaborations and topics.](visual_cv_July_2024.jpeg){width="90%"}
+
+# Interests
+
+-   Biosecurity
+-   Food security
+-   Invasive species (weeds, pests and diseases)
+-   Global change
+-   Plant epidemiology
+-   Network models
+
+# Education
+
+-   MSc University of Auckland 1995 ![UoA](UoA.jpeg){width="10%"}
+-   PhD Florida State University 2016 ![FSU](FSU.jpeg){width="20%"}
+-   Post-doc University of Florida 2018 ![UF](UF.jpeg){width="20%"}
+
+# Biography
+
+I work as a Senior Scientist at AgResearch in Hamilton, New Zealand. A major goal of my work has been to inform and influence management and policy with respect to biosecurity, biodiversity (including systematics and evolution), and natural resources. Apart from recent work on herbicide resistance and seed biosecurity my research has focused on invasive plants, animal impacts, plant epidemiology, plant phylogenomics and systematics. Prior to completing my doctorate, I worked in non-academic roles that focused on biosecurity issues related to invasive plant and animal policy and management in New Zealand, Galapagos and Hawaii.
+
+A post-doc in Dr. Garrett's [lab](https://www.garrettlab.com/ "UF plant epidemiology") provided a stimulating work environment. We were looking at plant epidemiology, disease incidence, and food security within a project about [roots, tubers and bananas](http://www.rtb.cgiar.org/). Collaborators work in Asia, Africa and South America in the [CGIAR](http://www.cgiar.org/) research consortium. These crops are all subject to "seed degeneration" whereby yields are reduced by the accumulation of pathogens (often these are viruses) over successive plantings of vegetative planting material (and farmer to farmer spread through "seed systems"). I completed my PhD with [Austin Mast](http://mastlab.org) at Florida State University in 2016. I also spent a few years working as a curator in the [herbarium](http://herbarium.bio.fsu.edu/) at FSU. My post-doc was in Professor Karen Garrett's [lab](http://www.garrettlab.com/).
+
+# Contact
+
+You can write me at on gmail \@ *cbuddenhagen*. Or contact me via the social media links provided above.
+
+To find my office at the Plant Protection building in Hamilton, New Zealand, check the map here, or this Google [link](https://goo.gl/maps/5vYNM8TQ4mtFLkZ18 "get me to google maps I want to navigate!").
+
+```{r plant protection map, echo=FALSE}
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%
+  addMarkers(
+    lng=175.30959,
+    lat=-37.77585,
+    label="Plant Protection Building"
+  ) %>% 
+  addProviderTiles(providers$CartoDB.Positron)
+```

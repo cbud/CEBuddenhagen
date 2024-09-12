@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Notes from a from a plant biologist</title>
+<link>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/index.html</link>
+<atom:link href="https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/index.xml" rel="self" type="application/rss+xml"/>
+<description></description>
+<generator>quarto-1.0.38</generator>
+<lastBuildDate>Thu, 08 Sep 2022 12:00:00 GMT</lastBuildDate>
+<item>
+  <title>Sankey diagram example data and code</title>
+  <dc:creator>Christopher Buddenhagen</dc:creator>
+  <link>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/sankey-example/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<p>I first learned about a Sankey graph from Tufte’s data visualization book <span class="citation" data-cites="tufte1983visual">(Tufte 1983)</span>. It is a heartbreaking image of Napoleon’s army’s attempt to invade Moscow, but instead of victory, thousands died through a mix of war and unhygienic and freezing weather as the marched to Moscow and back to France. My purposes for this post are much more mundane, quite unimportant relatively - to look at weightings of a project with criteria.</p>
+<p>How can data be used to generate a Sankey graph? You need project and criteria node names arranged in terms of weights and the target and sources for links Table&nbsp;2. This way nodes and links are sized according the assigned weights Figure&nbsp;1 - an example of its application is in my other post for our <a href="https://cbuddenhagen.quarto.pub/notes-from-a-from-a-plant-biologist/posts/weed-horizon-scan/">weed horizon scan</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/sankey-example/Charles-Joseph-Minards-visualization-of-Napoleons-Russian-campaign-of-1812-Friendly_W640.jpeg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Charles Joseph Minard’s visualization of Napoleon’s Russian campaign of 1812</figcaption><p></p>
+</figure>
+</div>
+<p>The package is a network package <code>networkD3</code><span class="citation" data-cites="allaireNetworkD3D3JavaScript2017">Allaire et al. (2017)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;">#Load packages</span></span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(tidyverse)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(networkD3)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;">library</span>(kableExtra)</span></code></pre></div>
+</div>
+<p>The data can be read in from an external file, you need the nodes to be listed and numbered from 0 and on up to the number of nodes in one file, the names should match the criteria and project titles Table&nbsp;1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">nodes<span class="ot" style="color: #003B4F;">&lt;-</span></span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;">structure</span>(</span>
+<span id="cb2-3">  <span class="fu" style="color: #4758AB;">list</span>(</span>
+<span id="cb2-4">    <span class="at" style="color: #657422;">source =</span> <span class="dv" style="color: #AD0000;">0</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">7</span>, <span class="co" style="color: #5E5E5E;">#node numbering starts at zero</span></span>
+<span id="cb2-5">    <span class="at" style="color: #657422;">target_name =</span> <span class="fu" style="color: #4758AB;">c</span>(</span>
+<span id="cb2-6">      <span class="st" style="color: #20794D;">"1 project"</span>,</span>
+<span id="cb2-7">      <span class="st" style="color: #20794D;">"2 project"</span>,</span>
+<span id="cb2-8">      <span class="st" style="color: #20794D;">"3 project"</span>,</span>
+<span id="cb2-9">      <span class="st" style="color: #20794D;">"4 project"</span>,</span>
+<span id="cb2-10">      <span class="st" style="color: #20794D;">"5 project"</span>,</span>
+<span id="cb2-11">      <span class="st" style="color: #20794D;">"Proportion of work that is plant science"</span>,</span>
+<span id="cb2-12">      <span class="st" style="color: #20794D;">"Stakeholders will benefit"</span>,</span>
+<span id="cb2-13">      <span class="st" style="color: #20794D;">"Is not well addressed by others"</span></span>
+<span id="cb2-14">    )</span>
+<span id="cb2-15">  ),</span>
+<span id="cb2-16">  <span class="at" style="color: #657422;">row.names =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="cn" style="color: #8f5902;">NA</span>,<span class="sc" style="color: #5E5E5E;">-</span>8L),</span>
+<span id="cb2-17">  <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"data.frame"</span></span>
+<span id="cb2-18">)</span>
+<span id="cb2-19"></span>
+<span id="cb2-20"><span class="fu" style="color: #4758AB;">kable</span>(nodes <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">arrange</span>(source), <span class="at" style="color: #657422;">align=</span><span class="st" style="color: #20794D;">"l"</span>, <span class="at" style="color: #657422;">format =</span> <span class="st" style="color: #20794D;">"pipe"</span>, <span class="at" style="color: #657422;">padding =</span> <span class="dv" style="color: #AD0000;">2</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div id="tbl-nodes" class="anchored">
+<table class="table table-sm table-striped">
+<caption>Table 1: The nodes need to be numbered from zero up.</caption>
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">source</th>
+<th style="text-align: left;">target_name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">1 project</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2 project</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">3 project</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">4 project</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">5 project</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">Proportion of work that is plant science</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Stakeholders will benefit</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">7</td>
+<td style="text-align: left;">Is not well addressed by others</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Generate some random weights for this exercise, I am using 3 criteria, for the 5 projects so I need 15 weights.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">weights<span class="ot" style="color: #003B4F;">&lt;-</span><span class="fu" style="color: #4758AB;">sample</span>(<span class="dv" style="color: #AD0000;">1</span><span class="sc" style="color: #5E5E5E;">:</span><span class="dv" style="color: #AD0000;">10</span>, <span class="dv" style="color: #AD0000;">15</span>, <span class="at" style="color: #657422;">replace=</span>T)</span></code></pre></div>
+</div>
+<p>Then generate the table with project names and weights. The link colors are determined by the names on the nodes and it can have problems recognizing names as unique if the first word is the same and there are spaces. I used Project 1, Project 2, etc and it didn’t recognize the nodes as distinct until I named them 1 Project, 2 Project, etc.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">target_source <span class="ot" style="color: #003B4F;">&lt;-</span></span>
+<span id="cb4-2">  <span class="fu" style="color: #4758AB;">tibble</span>(</span>
+<span id="cb4-3">    <span class="at" style="color: #657422;">source_name =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">rep</span>(</span>
+<span id="cb4-4">      <span class="fu" style="color: #4758AB;">c</span>(</span>
+<span id="cb4-5">        <span class="st" style="color: #20794D;">"Proportion of work that is plant science"</span>,</span>
+<span id="cb4-6">        <span class="st" style="color: #20794D;">"Stakeholders will benefit"</span>,</span>
+<span id="cb4-7">        <span class="st" style="color: #20794D;">"Is not well addressed by others"</span></span>
+<span id="cb4-8">      ),</span>
+<span id="cb4-9">      <span class="dv" style="color: #AD0000;">5</span></span>
+<span id="cb4-10">    )),</span>
+<span id="cb4-11">    <span class="at" style="color: #657422;">target_name =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">rep</span>(</span>
+<span id="cb4-12">      <span class="fu" style="color: #4758AB;">c</span>(<span class="st" style="color: #20794D;">"1 project"</span>,</span>
+<span id="cb4-13">        <span class="st" style="color: #20794D;">"2 project"</span>,</span>
+<span id="cb4-14">        <span class="st" style="color: #20794D;">"3 project"</span>,</span>
+<span id="cb4-15">        <span class="st" style="color: #20794D;">"4 project"</span>,</span>
+<span id="cb4-16">        <span class="st" style="color: #20794D;">"5 project"</span>),</span>
+<span id="cb4-17">      <span class="dv" style="color: #AD0000;">3</span></span>
+<span id="cb4-18">    )),</span>
+<span id="cb4-19">    <span class="at" style="color: #657422;">weight=</span><span class="fu" style="color: #4758AB;">as.numeric</span>(<span class="fu" style="color: #4758AB;">c</span>(weights)),</span>
+<span id="cb4-20">    <span class="at" style="color: #657422;">target =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">rep</span>(<span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">0</span>, <span class="dv" style="color: #AD0000;">1</span>, <span class="dv" style="color: #AD0000;">2</span>, <span class="dv" style="color: #AD0000;">3</span>, <span class="dv" style="color: #AD0000;">4</span>), <span class="dv" style="color: #AD0000;">3</span>)),</span>
+<span id="cb4-21">    <span class="at" style="color: #657422;">source =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">rep</span>(<span class="fu" style="color: #4758AB;">c</span>(<span class="dv" style="color: #AD0000;">5</span>, <span class="dv" style="color: #AD0000;">6</span>, <span class="dv" style="color: #AD0000;">7</span>), <span class="dv" style="color: #AD0000;">5</span>))</span>
+<span id="cb4-22">    </span>
+<span id="cb4-23">    ) </span>
+<span id="cb4-24"></span>
+<span id="cb4-25"><span class="fu" style="color: #4758AB;">kable</span>(target_source <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">arrange</span>(target_name), <span class="at" style="color: #657422;">align=</span><span class="st" style="color: #20794D;">"c"</span>, <span class="at" style="color: #657422;">format =</span> <span class="st" style="color: #20794D;">"pipe"</span>, <span class="at" style="color: #657422;">padding =</span> <span class="dv" style="color: #AD0000;">2</span>)</span></code></pre></div>
+<div class="cell-output-display">
+<div id="tbl-data" class="anchored">
+<table class="table table-sm table-striped">
+<caption>Table 2: Data arrangement includes projects, criteria and weights.</caption>
+<colgroup>
+<col style="width: 49%">
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">source_name</th>
+<th style="text-align: center;">target_name</th>
+<th style="text-align: center;">weight</th>
+<th style="text-align: center;">target</th>
+<th style="text-align: center;">source</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Proportion of work that is plant science</td>
+<td style="text-align: center;">1 project</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Is not well addressed by others</td>
+<td style="text-align: center;">1 project</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Stakeholders will benefit</td>
+<td style="text-align: center;">1 project</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Stakeholders will benefit</td>
+<td style="text-align: center;">2 project</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Proportion of work that is plant science</td>
+<td style="text-align: center;">2 project</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Is not well addressed by others</td>
+<td style="text-align: center;">2 project</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Is not well addressed by others</td>
+<td style="text-align: center;">3 project</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Stakeholders will benefit</td>
+<td style="text-align: center;">3 project</td>
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Proportion of work that is plant science</td>
+<td style="text-align: center;">3 project</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Proportion of work that is plant science</td>
+<td style="text-align: center;">4 project</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Is not well addressed by others</td>
+<td style="text-align: center;">4 project</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Stakeholders will benefit</td>
+<td style="text-align: center;">4 project</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Stakeholders will benefit</td>
+<td style="text-align: center;">5 project</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">6</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Proportion of work that is plant science</td>
+<td style="text-align: center;">5 project</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Is not well addressed by others</td>
+<td style="text-align: center;">5 project</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">7</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Then generate the Figure&nbsp;1. Just note it is outputting and html widget, looks a lot better on a desktop screen.</p>
+<hr>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">sankey3<span class="ot" style="color: #003B4F;">&lt;-</span>networkD3<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">sankeyNetwork</span>(<span class="at" style="color: #657422;">Links =</span> target_source, </span>
+<span id="cb5-2">                                  <span class="at" style="color: #657422;">Nodes =</span> nodes, </span>
+<span id="cb5-3">                                  <span class="at" style="color: #657422;">Source =</span> <span class="st" style="color: #20794D;">'target'</span>, </span>
+<span id="cb5-4">                                  <span class="at" style="color: #657422;">Target =</span> <span class="st" style="color: #20794D;">'source'</span>, </span>
+<span id="cb5-5">                                  <span class="at" style="color: #657422;">Value =</span> <span class="st" style="color: #20794D;">'weight'</span>, </span>
+<span id="cb5-6">                                  <span class="at" style="color: #657422;">NodeID =</span> <span class="st" style="color: #20794D;">'target_name'</span>,</span>
+<span id="cb5-7">                                  <span class="at" style="color: #657422;">units =</span> <span class="st" style="color: #20794D;">'weight'</span>,</span>
+<span id="cb5-8">                                  <span class="at" style="color: #657422;">width =</span> <span class="dv" style="color: #AD0000;">600</span>,</span>
+<span id="cb5-9">                                  <span class="at" style="color: #657422;">height =</span> <span class="dv" style="color: #AD0000;">800</span>,</span>
+<span id="cb5-10">                                  <span class="at" style="color: #657422;">fontSize =</span> <span class="dv" style="color: #AD0000;">18</span>,</span>
+<span id="cb5-11">                                  <span class="at" style="color: #657422;">LinkGroup=</span><span class="st" style="color: #20794D;">"target_name"</span>, </span>
+<span id="cb5-12">                                  <span class="at" style="color: #657422;">fontFamily =</span> <span class="st" style="color: #20794D;">"Georgia"</span>)</span>
+<span id="cb5-13"></span>
+<span id="cb5-14">sankey3</span></code></pre></div>
+<div id="fig-sankey" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<div id="htmlwidget-39e620bb78615a3b442f" style="width:100%;height:866px;" class="sankeyNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-39e620bb78615a3b442f">{"x":{"links":{"source":[0,1,2,3,4,0,1,2,3,4,0,1,2,3,4],"target":[5,6,7,5,6,7,5,6,7,5,6,7,5,6,7],"value":[3,7,6,7,5,9,3,10,4,2,8,10,9,7,7],"group":["1 project","2 project","3 project","4 project","5 project","1 project","2 project","3 project","4 project","5 project","1 project","2 project","3 project","4 project","5 project"]},"nodes":{"name":["1 project","2 project","3 project","4 project","5 project","Proportion of work that is plant science","Stakeholders will benefit","Is not well addressed by others"],"group":["1 project","2 project","3 project","4 project","5 project","Proportion of work that is plant science","Stakeholders will benefit","Is not well addressed by others"]},"options":{"NodeID":"target_name","NodeGroup":"target_name","LinkGroup":"target_name","colourScale":"d3.scaleOrdinal(d3.schemeCategory20);","fontSize":18,"fontFamily":"Georgia","nodeWidth":15,"nodePadding":10,"units":"weight","margin":{"top":null,"right":null,"bottom":null,"left":null},"iterations":32,"sinksRight":true}},"evals":[],"jsHooks":[]}</script>
+<p></p><figcaption class="figure-caption">Figure 1: Project weights under three criteria using a Sankey diagram, from R code.</figcaption><p></p>
+</figure>
+</div>
+</div>
+<section id="references" class="level2">
+
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-allaireNetworkD3D3JavaScript2017" class="csl-entry">
+Allaire JJ, Gandrud C, Russell K, Yetman C 2017. <span class="nocase">networkD3</span>: <span>D3 JavaScript</span> network graphs from r.
+</div>
+<div id="ref-tufte1983visual" class="csl-entry">
+Tufte ER 1983. The visual display of quantitative information. <span>Graphics Press,</span> <span>Chesire, CT</span>.
+</div>
+</div></section></div> ]]></description>
+  <category>news</category>
+  <category>code</category>
+  <category>analysis</category>
+  <category>network</category>
+  <guid>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/sankey-example/index.html</guid>
+  <pubDate>Thu, 08 Sep 2022 12:00:00 GMT</pubDate>
+  <media:content url="https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/sankey-example/sankey.png" medium="image" type="image/png" height="157" width="144"/>
+</item>
+<item>
+  <title>A co-occurrence network</title>
+  <dc:creator>Christopher Buddenhagen</dc:creator>
+  <link>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/co-occurrence-network/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="global-weed-compendium-network" class="level1">
+<h1>Global weed compendium network</h1>
+<p>This is a co-occurrence network I made from a weed species by <a href="https://www.researchgate.net/project/Global-Weed-Country-Dataset-available">geographic region list</a> - an output from Rod Randall’s <em>fantastic</em> Global Weeds Compendium <span class="citation" data-cites="randallGlobalCompendiumWeeds2017">Randall (2017)</span>. This is not to be confused with CABI’s <em>awesome</em> <a href="https://www.cabi.org/isc/" title="CABI Invasive Species Compendium">Invasive Species Compendium</a> (ISC). I contributed a few data sheets for their compendium a few years ago <span class="citation" data-cites="buddenhagenBuddlejaAsiaticaDog2016 buddenhagenChristellaDentataSoft2014 buddenhagenCinnamomumBurmanniPadang2015 buddenhagenCyclosorusParasiticusParasitic2013 buddenhagenPassifloraEdulisPassionfruit2014 buddenhagenSetariaParvifloraKnotroot2013 buddenhagenSolanumCapsicoidesCockroach2014">(Buddenhagen 2013a, b, 2014a, b, c, 2015, Buddenhagen 2016)</span>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/co-occurrence-network/country%20network.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">A co-occurrence network of highly weighted links between countries based on shared weed species between countries described in the Global Compendium of Weeds.</figcaption><p></p>
+</figure>
+</div>
+<p>I used the <code>igraph</code> and <code>ggraph</code> packages to make the network <span class="citation" data-cites="csardiIgraphSoftwarePackage2006">Csardi &amp; Nepusz (2006)</span>. This is much reduced by using only highly weighted links - otherwise its too huge because Randall’s dataset is big! I think this “stress” layout makes nodes means countries that share more species are closer together. Let’s compare the Australian and New Zealand location in the network topology. Here NZ is more similar to temperate Asian countries and Europe, while Australia shares species with drier Mediterranean climates, tropical America and Asia.</p>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;">library</span>(tidyverse)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;">library</span>(readxl)</span>
+<span id="cb1-3"><span class="fu" style="color: #4758AB;">library</span>(ggraph)</span>
+<span id="cb1-4"><span class="fu" style="color: #4758AB;">library</span>(igraph)</span></code></pre></div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;">#read in data from Randall's compendium https://www.researchgate.net/project/Global-Weed-Country-Dataset-available</span></span>
+<span id="cb2-2">country_spp<span class="ot" style="color: #003B4F;">&lt;-</span><span class="fu" style="color: #4758AB;">read_xlsx</span>(<span class="st" style="color: #20794D;">"Randall 2017 Global Compendium countries with species.xlsx"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;">#make links</span></span>
+<span id="cb3-2">country_spp<span class="ot" style="color: #003B4F;">&lt;-</span>country_spp <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">rename</span>(<span class="st" style="color: #20794D;">"to"</span><span class="ot" style="color: #003B4F;">=</span><span class="st" style="color: #20794D;">`</span><span class="at" style="color: #657422;">Full taxa name with author citation</span><span class="st" style="color: #20794D;">`</span>) <span class="sc" style="color: #5E5E5E;">%&gt;%</span>  <span class="fu" style="color: #4758AB;">rename</span>(<span class="st" style="color: #20794D;">"from"</span><span class="ot" style="color: #003B4F;">=</span><span class="st" style="color: #20794D;">`</span><span class="at" style="color: #657422;">Compendium Country</span><span class="st" style="color: #20794D;">`</span>) <span class="sc" style="color: #5E5E5E;">%&gt;%</span> <span class="fu" style="color: #4758AB;">select</span>(<span class="st" style="color: #20794D;">"from"</span>, <span class="st" style="color: #20794D;">"to"</span>)</span>
+<span id="cb3-3"><span class="co" style="color: #5E5E5E;">#adjacency matrix country shared species</span></span>
+<span id="cb3-4">country_by_spp <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">table</span>(country_spp)</span>
+<span id="cb3-5"></span>
+<span id="cb3-6"><span class="co" style="color: #5E5E5E;">#make adjacency matrix</span></span>
+<span id="cb3-7">adjacency <span class="ot" style="color: #003B4F;">&lt;-</span> country_by_spp <span class="sc" style="color: #5E5E5E;">%*%</span> <span class="fu" style="color: #4758AB;">t</span>(country_by_spp)</span>
+<span id="cb3-8"><span class="fu" style="color: #4758AB;">diag</span>(adjacency)<span class="ot" style="color: #003B4F;">&lt;-</span><span class="dv" style="color: #AD0000;">0</span> <span class="co" style="color: #5E5E5E;">#remove self loops</span></span></code></pre></div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="co" style="color: #5E5E5E;">#use igraph to make igraph object</span></span>
+<span id="cb4-2">g<span class="ot" style="color: #003B4F;">&lt;-</span><span class="fu" style="color: #4758AB;">graph_from_adjacency_matrix</span>(adjacency,<span class="at" style="color: #657422;">weighted=</span>T, <span class="at" style="color: #657422;">mode=</span><span class="st" style="color: #20794D;">"undirected"</span>)</span>
+<span id="cb4-3"><span class="co" style="color: #5E5E5E;">#get attributes</span></span>
+<span id="cb4-4"><span class="fu" style="color: #4758AB;">attributes</span>(<span class="fu" style="color: #4758AB;">V</span>(g))</span></code></pre></div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;">#see which node is the NZ node.</span></span>
+<span id="cb5-2"><span class="fu" style="color: #4758AB;">V</span>(g)<span class="sc" style="color: #5E5E5E;">$</span>name<span class="sc" style="color: #5E5E5E;">==</span><span class="st" style="color: #20794D;">"New Zealand"</span></span></code></pre></div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;">#get reduced graph baed on edge weights</span></span>
+<span id="cb6-2">g_sub <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">delete.edges</span>(g, <span class="fu" style="color: #4758AB;">E</span>(g)[weight <span class="sc" style="color: #5E5E5E;">&lt;=</span> <span class="fu" style="color: #4758AB;">max</span>(weight)<span class="sc" style="color: #5E5E5E;">*</span>.<span class="dv" style="color: #AD0000;">15</span>]) <span class="co" style="color: #5E5E5E;">#reduces links by link weight</span></span>
+<span id="cb6-3">g_sub <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">delete.vertices</span>(g_sub , <span class="fu" style="color: #4758AB;">which</span>(<span class="fu" style="color: #4758AB;">degree</span>(g_sub)<span class="sc" style="color: #5E5E5E;">==</span><span class="dv" style="color: #AD0000;">0</span>)) <span class="co" style="color: #5E5E5E;">#removes isolated nodes after links are removed</span></span></code></pre></div>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="co" style="color: #5E5E5E;">#ggraph is a tidy implementation of igraph</span></span>
+<span id="cb7-2"></span>
+<span id="cb7-3"> <span class="fu" style="color: #4758AB;">ggraph</span>(g_sub, <span class="at" style="color: #657422;">layout =</span> <span class="st" style="color: #20794D;">'kk'</span>) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb7-4">   <span class="fu" style="color: #4758AB;">geom_edge_fan</span>(<span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">colour =</span> weight, <span class="at" style="color: #657422;">alpha =</span> <span class="fu" style="color: #4758AB;">stat</span>(index))) <span class="sc" style="color: #5E5E5E;">+</span> </span>
+<span id="cb7-5">   <span class="fu" style="color: #4758AB;">geom_node_text</span>(<span class="fu" style="color: #4758AB;">aes</span>(<span class="at" style="color: #657422;">label =</span> name, <span class="at" style="color: #657422;">size=</span><span class="dv" style="color: #AD0000;">1</span>), <span class="at" style="color: #657422;">colour=</span><span class="st" style="color: #20794D;">"darkgreen"</span>)<span class="sc" style="color: #5E5E5E;">+</span></span>
+<span id="cb7-6">   <span class="fu" style="color: #4758AB;">theme</span>(<span class="at" style="color: #657422;">legend.position=</span><span class="st" style="color: #20794D;">"none"</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><span class="fu" style="color: #4758AB;">ggsave</span>(<span class="st" style="color: #20794D;">"country network.png"</span>, <span class="at" style="color: #657422;">width=</span><span class="dv" style="color: #AD0000;">11</span>, <span class="at" style="color: #657422;">height=</span><span class="dv" style="color: #AD0000;">11</span>)</span></code></pre></div>
+</section>
+<section id="references" class="level2">
+
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-buddenhagenCyclosorusParasiticusParasitic2013" class="csl-entry">
+Buddenhagen CE. 2013a. <span><em>Cyclosorus parasiticus</em></span>, (parasitic maiden fern). https://www.cabi.org/isc/datasheet/120368.
+</div>
+<div id="ref-buddenhagenSetariaParvifloraKnotroot2013" class="csl-entry">
+Buddenhagen CE. 2013b. <span><em>Setaria parviflora</em></span>, (knotroot foxtail). https://www.cabi.org/isc/datasheet/49768.
+</div>
+<div id="ref-buddenhagenChristellaDentataSoft2014" class="csl-entry">
+Buddenhagen CE. 2014a. <span><em>Christella dentata</em></span>, (soft fern). https://www.cabi.org/isc/datasheet/113279.
+</div>
+<div id="ref-buddenhagenPassifloraEdulisPassionfruit2014" class="csl-entry">
+Buddenhagen CE. 2014b. <span><em>Passiflora edulis</em></span>, (passionfruit). https://www.cabi.org/isc/datasheet/38799.
+</div>
+<div id="ref-buddenhagenSolanumCapsicoidesCockroach2014" class="csl-entry">
+Buddenhagen CE. 2014c. <span><em>Solanum capsicoides</em></span>, (cockroach berry). https://www.cabi.org/isc/datasheet/110315.
+</div>
+<div id="ref-buddenhagenCinnamomumBurmanniPadang2015" class="csl-entry">
+Buddenhagen CE. 2015. <span><em>Cinnamomum burmanni</em></span>, (padang cassia). https://www.cabi.org/isc/datasheet/13516.
+</div>
+<div id="ref-buddenhagenBuddlejaAsiaticaDog2016" class="csl-entry">
+Buddenhagen C. 2016. <span><em>Buddleja asiatica</em></span>, (dog tail). https://www.cabi.org/isc/datasheet/10317.
+</div>
+<div id="ref-csardiIgraphSoftwarePackage2006" class="csl-entry">
+Csardi G, Nepusz T. 2006. The igraph software package for complex network research. <em>InterJournal, Complex Systems</em> <em>1695</em>: 1–9.
+</div>
+<div id="ref-randallGlobalCompendiumWeeds2017" class="csl-entry">
+Randall RP. 2017. <em>A <span>Global Compendium</span> of <span>Weeds</span>. <span>Third Edition</span>.</em> <span>Rod Randall</span>.
+</div>
+</div></section></div> ]]></description>
+  <category>news</category>
+  <category>code</category>
+  <category>analysis</category>
+  <category>weeds</category>
+  <category>network</category>
+  <guid>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/co-occurrence-network/index.html</guid>
+  <pubDate>Tue, 23 Aug 2022 12:00:00 GMT</pubDate>
+  <media:content url="https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/co-occurrence-network/country network.png" medium="image" type="image/png" height="144" width="144"/>
+</item>
+<item>
+  <title>A pastoral weed horizon scan</title>
+  <dc:creator>Christopher Buddenhagen</dc:creator>
+  <link>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/weed-horizon-scan/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="a-horizon-scan-for-pastoral-weed-research" class="level1">
+<h1>A horizon scan for pastoral weed research</h1>
+<p>This is my first post in a Quarto blog. Welcome! Here I share recent effort we made at AgResearch Ltd.&nbsp;via an interdisciplinary expert elicitation workshop to identify drivers of innovative weed research for the pastoral sector <span class="citation" data-cites="doi:10.1080/00288233.2022.2107026">Buddenhagen et al. (2022)</span>. This builds on an earlier strategic more applied research document <span class="citation" data-cites="bourdotPastoralSectorWeeds2018">Bourdôt et al. (2018)</span>.</p>
+<p>The main drivers we identified were ranked by participants using the criteria (1) is this a horizon (is the driver likely to become important in 10–20 years?); (2) will the research require stretchy science (is it currently not well addressed by the science community?); (3) is the research transformative (will successful scientific research in this area lead to significant changes to weed management in pastures?). We depicted the relative ranks using a nifty Sankey diagram <span class="citation" data-cites="allaireNetworkD3D3JavaScript2017">Allaire et al. (2017)</span> from the <code>networkD3</code> package in <code>R</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/weed-horizon-scan/sankey.jpeg" class="img-fluid figure-img" alt="A sankey diagram showing the major drivers of innovation with rank scores for it being a emerging issue on horizon, potential to transform management, and on the stretchiness of the science."></p>
+<p></p><figcaption class="figure-caption">Major drivers of research innovation for being a emerging issue on horizon, with potential to transform management, and potentially needing stretchy science. Width of the links is based on the expert elicitation of weighted scores derived from rankings of participants.</figcaption><p></p>
+</figure>
+</div>
+<section id="post-script" class="level3">
+<h3 class="anchored" data-anchor-id="post-script">Post script</h3>
+<p>To set this blog up I followed the guidelines at <a href="https://quarto.org/docs/websites/website-blog.html">quarto.org</a>, with some nice pointers from a data witch <span class="citation" data-cites="navarro2022">Navarro (2022)</span>.</p>
+</section>
+<section id="references" class="level2">
+
+
+
+
+</section>
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-allaireNetworkD3D3JavaScript2017" class="csl-entry">
+Allaire, J. J., Christopher Gandrud, Kenton Russell, and CJ Yetman. 2017. <em><span class="nocase">networkD3</span>: <span>D3 JavaScript</span> Network Graphs from r</em>. Manual.
+</div>
+<div id="ref-bourdotPastoralSectorWeeds2018" class="csl-entry">
+Bourdôt, Graeme, Chris Buddenhagen, Shona Lamoureaux, Mike Cripps, and Trevor James. 2018. <span>“Pastoral Sector Weeds Research Strategy (2018-2028).”</span> 8284. <span>Christchurch, New Zealand</span>: <span>AgResearch</span>.
+</div>
+<div id="ref-doi:10.1080/00288233.2022.2107026" class="csl-entry">
+Buddenhagen, Christopher E., Graeme Bourdot, Mike Cripps, Nigel Bell, Paul Champion, Mike Dodd, Han Eerens, et al. 2022. <span>“A Horizon Scan for Temperate Pastoral Weed Sciencea <span>New Zealand</span> Perspective.”</span> <em>New Zealand Journal of Agricultural Research</em> 0 (0): 1–17. <a href="https://doi.org/10.1080/00288233.2022.2107026">https://doi.org/10.1080/00288233.2022.2107026</a>.
+</div>
+<div id="ref-navarro2022" class="csl-entry">
+Navarro, Danielle. 2022. <span>“Porting a Distill Blog to Quarto.”</span> https://blog.djnavarro.net/posts/2022-04-20_porting-to-quarto.
+</div>
+</div></section></div> ]]></description>
+  <category>news</category>
+  <category>research</category>
+  <category>weeds</category>
+  <category>horizon scan</category>
+  <guid>https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/weed-horizon-scan/index.html</guid>
+  <pubDate>Mon, 22 Aug 2022 12:00:00 GMT</pubDate>
+  <media:content url="https://quartopub.com/sites/cbuddenhagen/notes-from-a-from-a-plant-biologist/posts/weed-horizon-scan/sankey.jpeg" medium="image" type="image/jpeg"/>
+</item>
+</channel>
+</rss>
